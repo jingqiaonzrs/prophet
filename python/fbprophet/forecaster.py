@@ -881,17 +881,18 @@ class Prophet(object):
             ax = fig.add_subplot(111)
         else:
             fig = ax.get_figure()
-        ax.plot(self.history['ds'].values, self.history['y'], 'k.')
-        ax.plot(fcst['ds'].values, fcst['yhat'], ls='-', c='#0072B2')
+        l1=ax.plot(self.history['ds'].values, self.history['y'], 'k.')
+        l2=ax.plot(fcst['ds'].values, fcst['yhat'], ls='-', c='#0072B2')
         if 'cap' in fcst and plot_cap:
             ax.plot(fcst['ds'].values, fcst['cap'], ls='--', c='k')
         if uncertainty:
-            ax.fill_between(fcst['ds'].values, fcst['yhat_lower'],
+            l3=ax.fill_between(fcst['ds'].values, fcst['yhat_lower'],
                             fcst['yhat_upper'], color='#0072B2',
                             alpha=0.2)
         ax.grid(True, which='major', c='gray', ls='-', lw=1, alpha=0.2)
         ax.set_xlabel(xlabel)
         ax.set_ylabel(ylabel)
+        fig.legend((l1,l2,l3), ('Actual Value', 'Predicted Value', 'Uncertainty Interval'),'lower right')
         fig.tight_layout()
         return fig
 
